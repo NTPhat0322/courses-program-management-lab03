@@ -70,6 +70,11 @@ public class Learner implements Comparable<Learner>{
                 '}';
     }
 
+    /**
+     * sort learner in tree by code
+     * @param o the object to be compared.
+     * @return
+     */
     @Override
     public int compareTo(Learner o) {
         return this.code.compareTo(o.code);

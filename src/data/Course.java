@@ -104,10 +104,19 @@ public class Course implements Comparable<Course>{
                 '}';
     }
 
+    /**
+     * add learner studying at this course
+     * @param learner
+     */
     public void addLearner(Learner learner) {
         learners.add(learner);
     }
 
+    /**
+     * sort course by code
+     * @param o the object to be compared.
+     * @return
+     */
     @Override
     public int compareTo(Course o) {
         return this.code.compareTo(o.code);

@@ -1,10 +1,13 @@
 package data;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.TreeSet;
 
-public class Topic implements Comparable<Topic>{
+public class Topic implements Comparable<Topic>, Serializable {
 
-
+    @Serial
+    private static final long serialVersionUID = 1L;
     private String code;
     private String name;
     private String type;
@@ -71,10 +74,19 @@ public class Topic implements Comparable<Topic>{
                 '}';
     }
 
+    /**
+     * adding course belonging to this topic
+     * @param course
+     */
     public void addCourse(Course course) {
         courses.add(course);
     }
 
+    /**
+     * sort topic in tree by code
+     * @param o the object to be compared.
+     * @return
+     */
     @Override
     public int compareTo(Topic o) {
         return this.code.compareTo(o.code);
