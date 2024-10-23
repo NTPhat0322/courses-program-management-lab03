@@ -1,6 +1,6 @@
 package data;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.TreeSet;
 
 public class Course implements Comparable<Course>{
@@ -9,13 +9,13 @@ public class Course implements Comparable<Course>{
     private String name;
     private String type;
     private String title;
-    private Date beginDate;
-    private Date endDate;
+    private LocalDate beginDate;
+    private LocalDate endDate;
     private double tuitionFee;
     private String topicCode;
-    private TreeSet<Learner> learners = new TreeSet<>();
+    //private TreeSet<Learner> learners = new TreeSet<>();
 
-    public Course(String code, String name, String type, String title, Date beginDate, Date endDate, double tuitionFee, String topicCode) {
+    public Course(String code, String name, String type, String title, LocalDate beginDate, LocalDate endDate, double tuitionFee, String topicCode) {
         this.code = code;
         this.name = name;
         this.type = type;
@@ -58,19 +58,19 @@ public class Course implements Comparable<Course>{
         this.title = title;
     }
 
-    public Date getBeginDate() {
+    public LocalDate getBeginDate() {
         return beginDate;
     }
 
-    public void setBeginDate(Date beginDate) {
+    public void setBeginDate(LocalDate beginDate) {
         this.beginDate = beginDate;
     }
 
-    public Date getEndDate() {
+    public LocalDate getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(Date endDate) {
+    public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
     }
 
@@ -104,18 +104,18 @@ public class Course implements Comparable<Course>{
                 '}';
     }
 
-    /**
-     * add learner studying at this course
-     * @param learner
-     */
-    public void addLearner(Learner learner) {
-        learners.add(learner);
-    }
+//    /**
+//     * add learner studying at this course
+//     * @param learner
+//     */
+//    public void addLearner(Learner learner) {
+//        learners.add(learner);
+//    }
 
     /**
      * sort course by code
      * @param o the object to be compared.
-     * @return
+     * @return 1 to swap
      */
     @Override
     public int compareTo(Course o) {

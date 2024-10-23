@@ -1,5 +1,6 @@
 import data.TopicTree;
 import util.FileName;
+import util.Inputer;
 
 import java.io.File;
 
@@ -9,5 +10,10 @@ public class Main {
         TopicTree tTree = new TopicTree();
         tTree.loadFromFile(FileName.TOPIC_TREE_BINARY_FILE_NAME);
         tTree.showAllTopics();
+
+        String code = Inputer.inputAString("input code update", true);
+        tTree.deleteTopic(code);
+
+        tTree.saveToFile(FileName.TOPIC_TREE_BINARY_FILE_NAME);
     }
 }

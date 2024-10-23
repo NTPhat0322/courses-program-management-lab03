@@ -6,6 +6,53 @@ import java.io.*;
 import java.util.*;
 
 public class TopicTree extends TreeSet<Topic> {
+
+    public void deleteTopic(String code) {
+        Topic t = searchTopicByCode(code);
+        if (t == null) {
+            System.out.println("Topic does not exist");
+            return;
+        }
+        System.out.println("The information of the topic that you want to delete is");
+        System.out.println(t);
+        int choice = Inputer.inputAnIntegerInRange("Are you sure to delete (0-no/1-yes)", -1, 2);
+        if(choice == 1) {
+            this.remove(t);
+        }
+        System.out.println("delete successfully");
+    }
+
+    /**
+     * update new information for topic
+     * @param code is the code of the Topic that you want to update
+     */
+    public void updateTopic(String code) {
+        Topic t = searchTopicByCode(code);
+        //check whether topic exist or not
+        if (t == null) {
+            System.out.println("The topic does not exist");
+            return;
+        }
+        //enter new information
+        String name, type, title;
+        int duration;
+        //input name
+        name = Inputer.inputAString("Input new name (press Enter to do not change)", false);
+        if(!name.isEmpty()) t.setName(name);
+        //input type
+        type = Inputer.inputAString("Input new type (press Enter to do not change))", false);
+        if(!type.isEmpty()) t.setType(type);
+        //input title
+        title = Inputer.inputAString("Input new title (press Enter to do not change)", false);
+        if(!title.isEmpty()) t.setTitle(title);
+        //input duration
+        duration = Inputer.inputAnInteger("Input duration (how many month??) - press 0 to do not change", -1);
+        if(duration != 0) t.setDuration(duration);
+
+        System.out.println("The information of the Topic after updating");
+        System.out.println(t.toString());
+    }
+
     /**
      * show all of topics
      */
@@ -49,7 +96,7 @@ public class TopicTree extends TreeSet<Topic> {
         //input title
         title = Inputer.inputAString("Input title of the topic", true);
         //input duration
-        duration = Inputer.inputAnInteger("Input duration of the topic(how many month??)", -1);
+        duration = Inputer.inputAnInteger("Input duration of the topic(how many month??)", 0);
 
         Topic t = new Topic(code, name, type, title, duration);
         this.add(t);

@@ -1,10 +1,33 @@
 package util;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 import java.util.TreeSet;
 
 public class Inputer {
     private static Scanner sc = new Scanner(System.in);
+
+    /**
+     * check whether your input is a double or not
+     * @param inputMsg is the message will be printed to user
+     * @return a double
+     */
+    public static double inputADouble(String inputMsg) {
+        double rs = 0;
+        boolean loop;
+        do{
+            try{
+                System.out.println(inputMsg);
+                rs = Double.parseDouble(sc.nextLine());
+                loop = false;
+            } catch (Exception e) {
+                System.out.println("Your input is not a double");
+                loop = true;
+            }
+        }while(loop);
+        return rs;
+    }
 
     /**
      * check whether your input is an integer or not
@@ -53,7 +76,7 @@ public class Inputer {
      * @param inputMsg: the message that you want to print
      * @param lowerBound: the minimum value of valid input
      * @param upperBound: the maximum vale of valid input
-     * @return the valid input
+     * @return the integer < max and > min
      */
     public static int inputAnIntegerInRange(String inputMsg, int lowerBound, int upperBound) {
         int rs = 0;
@@ -101,6 +124,29 @@ public class Inputer {
         } while (loop);
         return rs;
     }
+
+    /**
+     * user will input again when the format is wrong (process exception when input wrong format)
+     * @param inputMsg is the message to ask to input
+     * @return a local date
+     */
+    public static LocalDate inputLocalDate(String inputMsg) {
+        LocalDate rs = null;
+        boolean loop;
+        do {
+            try {
+                System.out.println(inputMsg);
+                rs = LocalDate.parse(sc.nextLine());
+                loop = false;
+            } catch (DateTimeParseException e) {
+                System.out.println("Your input is not a valid date");
+                loop = true;
+            }
+        } while(loop);
+        return rs;
+    }
+
+
 
 //    public static boolean checkDuplicated(TreeSet<Object> tree, String code) {
 //
