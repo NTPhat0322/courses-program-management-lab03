@@ -8,6 +8,93 @@ import java.util.*;
 
 public class CourseTree extends TreeSet<Course> {
     /**
+     * Display course with format "status, no pass, fee"
+     * @param learners the list of learner to count No.Learner
+     */
+    public void displayCourseByName(LearnerTree learners) {
+        List<Course> t = searchCourseByName();
+        for(Course c : t) {
+            System.out.println("Status: " + c.countLearnersInCourse(learners) +
+                    ", Pass: " + c.countNumOfLearnersPassInCourse(learners) +
+                    ", TuitionFee: " + c.getTuitionFee());
+
+        }
+    }
+
+    /**
+     * searching course by name
+     * @return the list of course
+     */
+    public List<Course> searchCourseByName() {
+        List<Course> courses = new ArrayList<>();
+        String name = Inputer.inputAString("Input name of course", true);
+        for(Course c: this) {
+            if(c.getName().contains(name))
+                courses.add(c);
+        }
+        return courses;
+    }
+
+    /**
+     * Display course with format "status, no pass, fee"
+     * @param learners the list of learner to count No.Learner
+     */
+    public void displayCourseByTopic(LearnerTree learners) {
+        List<Course> t = searchCourseByTopic();
+        for(Course c : t) {
+            System.out.println("Status: " + c.countLearnersInCourse(learners) +
+                               ", Pass: " + c.countNumOfLearnersPassInCourse(learners) +
+                               ", TuitionFee: " + c.getTuitionFee());
+
+        }
+    }
+
+    /**
+     * searching course by topic code
+     * @return the list of course
+     */
+    public List<Course> searchCourseByTopic() {
+        List<Course> courses = new ArrayList<>();
+        String topic = Inputer.inputAString("Input topic's code", true);
+        for(Course c: this) {
+            if(c.getTopicCode().equalsIgnoreCase(topic))
+                courses.add(c);
+        }
+        return courses;
+    }
+
+    /**
+     * updating the course
+     */
+    public void updateCourse() {
+        String code = Inputer.inputAString("Input code of couse", true);
+        Course s = searchCourseByCode(code);
+        if (s == null) {
+            System.out.println("Course does not exist");
+            return;
+        }
+        System.out.println("Information before updating");
+        System.out.println(s.toString());
+        String name, type, title, topicCode;
+        LocalDate beginDate, endDate;
+        double tuitionFee;
+        name = Inputer.inputAString("Input name of couse", false);
+        if(!name.isEmpty()) s.setName(name);
+        type = Inputer.inputAString("Input type of couse", false);
+        if(!type.isEmpty()) s.setType(type);
+        title = Inputer.inputAString("Input title of couse", false);
+        if(!title.isEmpty()) s.setTitle(title);
+        beginDate = Inputer.inputLocalDate("Input begin date of couse");
+        s.setBeginDate(beginDate);
+        endDate = Inputer.inputLocalDate("Input end date of couse");
+        s.setEndDate(endDate);
+        tuitionFee = Inputer.inputADouble("Input tuition fee of couse", 0);
+        s.setTuitionFee(tuitionFee);
+        System.out.println("The information after updating");
+        System.out.println(s.toString());
+    }
+
+    /**
      *  adding a course to topic
      */
     public void addCourse(TopicTree topics) {
@@ -59,9 +146,9 @@ public class CourseTree extends TreeSet<Course> {
 
     /**
      * deleting a course
-     * @param code is the code of course that you want to delete
      */
-    public void deleteCourse(String code) {
+    public void deleteCourse() {
+        String code = Inputer.inputAString("Input a code of course", true);
         Course t = searchCourseByCode(code);
         if (t == null) {
             System.out.println("Course does not exist");
@@ -98,8 +185,10 @@ public class CourseTree extends TreeSet<Course> {
         }
     }
 
-
-
+    /**
+     * saving datat to file
+     * @param fileName is the file name
+     */
     public void saveToFile(String fileName) {
         File file = new File(fileName);
         try {
@@ -119,20 +208,30 @@ public class CourseTree extends TreeSet<Course> {
         }
     }
 
+    /**
+     * loading daa from file
+     * @param fileName is the file name
+     */
     public void loadFromFile(String fileName) {
         File file = new File(fileName);
         try{
+            if(!file.exists())
+                file.createNewFile();
             FileInputStream fis = new FileInputStream(file);
             ObjectInputStream ois = new ObjectInputStream(fis);
             Course t = null;
             do {
-                t = (Course) ois.readObject();
-                if(t != null) {
-                    this.add(t);
+                try {
+                    t = (Course) ois.readObject();
+                    if(t != null) {
+                        this.add(t);
+                    }
+                }catch(EOFException a) {
+                    break;
                 }
-            }while(t != null);
+            } while(t != null);
         } catch (Exception e) {
-            System.out.println("Load failed");
+
         }
     }
 }

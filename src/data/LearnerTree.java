@@ -3,7 +3,7 @@ package data;
 import util.FileName;
 import util.Inputer;
 
-import java.io.File;
+import java.io.*;
 import java.time.LocalDate;
 import java.util.Iterator;
 import java.util.TreeSet;
@@ -31,7 +31,7 @@ public class LearnerTree extends TreeSet<Learner> {
         birthDay = Inputer.inputLocalDate("Input the birth day of leaner");
         do{
             loop = false;
-            courseCode = Inputer.inputAString("Input the course code of leaner", true);
+            courseCode = Inputer.inputAString("Input the course's code of leaner", true);
             Course t = courses.searchCourseByCode(courseCode);
             if(t == null){
                 System.out.println("The course doesn't exist!");
@@ -39,9 +39,12 @@ public class LearnerTree extends TreeSet<Learner> {
             }
             //cho tối đa 1 khóa học chỉ dc 30 sinh viên
             //chạy dc tới đây là đã tìm được course rồi
-            if(t.countLearnersInCourse(this) > FileName.MAXIMUM_SIZE_OF_COURSE) {
-                System.out.println("The course is already full");
-                loop = true; //tìm khóa khác
+            else{
+                if(t.countLearnersInCourse(this) >= FileName.MAXIMUM_SIZE_OF_COURSE) { //kiểm tra số lượng học sinh
+                    //hiện tại của course
+                    System.out.println("The course is already full");
+                    loop = true; //tìm khóa khác
+                }
             }
         }while(loop);
 
@@ -67,10 +70,10 @@ public class LearnerTree extends TreeSet<Learner> {
     }
 
     /**
-     * updating new score for learner
-     * @param code of leaner
+     * update score for learner
      */
-    public void updateScoreForLeaner(String code) {
+    public void updateScoreForLeaner() {
+        String code = Inputer.inputAString("Input a code of learner",true);
         Learner t = searchLearnerByCode(code);
         if(t == null){
             System.out.println("The learner doesn't exist!");
@@ -96,4 +99,52 @@ public class LearnerTree extends TreeSet<Learner> {
         return null;
     }
 
+    /**
+     * save data to file
+     * @param fileName is the filename
+     */
+    public void saveToFile(String fileName) {
+        File file = new File(fileName);
+        try {
+            if(!file.exists())
+                file.createNewFile();
+            FileOutputStream fos = new FileOutputStream(file);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            for(Learner l : this)
+                oos.writeObject(l);
+            oos.close();
+            fos.close();
+            System.out.println("Successfully saved the file!");
+        } catch (Exception e) {
+            System.out.println("Save failed!");
+        }
+    }
+
+    /**
+     * loading data from file
+     * @param fileName
+     */
+    public void loadFromFile(String fileName) {
+        File file = new File(fileName);
+        try {
+            if(!file.exists())
+                file.createNewFile();
+            FileInputStream fis = new FileInputStream(file);
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            Learner l = null;
+            do {
+                try {
+                    l = (Learner) ois.readObject();
+                    if(l != null)
+                        this.add(l);
+                }catch(EOFException a) {
+                    break;
+                }
+            } while(l != null);
+            ois.close();
+            fis.close();
+        } catch (Exception e) {
+
+        }
+    }
 }

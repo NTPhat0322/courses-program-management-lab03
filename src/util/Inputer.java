@@ -8,6 +8,12 @@ import java.util.TreeSet;
 public class Inputer {
     private static Scanner sc = new Scanner(System.in);
 
+    /**
+     * input a double
+     * @param inputMsg is the message will be printed out
+     * @param lowerBound the low boundary
+     * @return a double >= lower boundary
+     */
     public static double inputADouble(String inputMsg, double lowerBound) {
         double rs = 0;
         boolean loop;
@@ -159,12 +165,5 @@ public class Inputer {
         } while(loop);
         return rs;
     }
-
-
-
-//    public static boolean checkDuplicated(TreeSet<Object> tree, String code) {
-//
-//        return true;
-//    }
 
 }

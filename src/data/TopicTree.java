@@ -7,7 +7,33 @@ import java.util.*;
 
 public class TopicTree extends TreeSet<Topic> {
 
-    public void deleteTopic(String code) {
+    public void displayTopicBySearchName() {
+        List<Topic> t = this.searchTopicByName();
+        for(Topic to : t) {
+            System.out.println(to);
+        }
+    }
+
+    /**
+     * searching topic by name
+     * display all topics whose name contains the search information
+     */
+    public List<Topic> searchTopicByName() {
+        String name = Inputer.inputAString("Input the name you wanna find", true);
+        List<Topic> rs = new ArrayList<>();
+        for (Topic topic : this) {
+            if (topic.getName().contains(name)) {
+                rs.add(topic);
+            }
+        }
+        return rs;
+    }
+
+    /**
+     * deleting a topic
+     */
+    public void deleteTopic() {
+        String code = Inputer.inputAString("Input code of topic", true);
         Topic t = searchTopicByCode(code);
         if (t == null) {
             System.out.println("Topic does not exist");
@@ -24,9 +50,9 @@ public class TopicTree extends TreeSet<Topic> {
 
     /**
      * update new information for topic
-     * @param code is the code of the Topic that you want to update
      */
-    public void updateTopic(String code) {
+    public void updateTopic() {
+        String code = Inputer.inputAString("Input code of topic", true);
         Topic t = searchTopicByCode(code);
         //check whether topic exist or not
         if (t == null) {
@@ -148,19 +174,25 @@ public class TopicTree extends TreeSet<Topic> {
     public void loadFromFile(String fileName) {
         File file = new File(fileName);
         try{
+            if(!file.exists())
+                file.createNewFile();
             FileInputStream fos = new FileInputStream(file);
             ObjectInputStream ois = new ObjectInputStream(fos);
             Topic t = null;
             do {
-                t = (Topic) ois.readObject();
-                if(t != null) {
-                    this.add(t);
+                try {
+                    t = (Topic) ois.readObject();
+                    if(t != null) {
+                        this.add(t);
+                    }
+                }catch(EOFException a) {
+                    break;
                 }
             } while(t != null);
-            fos.close();
             ois.close();
+            fos.close();
         } catch (Exception e) {
-            System.out.println("Load failed");
+
         }
     }
 }

@@ -2,12 +2,15 @@ package data;
 
 import util.FileName;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Date;
 
-public class Learner implements Comparable<Learner>{
+public class Learner implements Comparable<Learner>, Serializable {
 
-
+    @Serial
+    private static final long serialVersionUID = 1L;
     private String code;
     private String name;
     private LocalDate birthDay;
@@ -73,10 +76,13 @@ public class Learner implements Comparable<Learner>{
                 '}';
     }
 
+    /**
+     * check whether this leaner pass or not
+     * @return true for pass and false for fail
+     */
     public boolean checkPass() {
-        if(this.getScore() >= FileName.SCORE_TO_PASS) {
+        if(this.getScore() >= FileName.SCORE_TO_PASS)
             return true;
-        }
         return false;
     }
 

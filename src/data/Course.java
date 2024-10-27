@@ -109,13 +109,6 @@ public class Course implements Comparable<Course>, Serializable {
                 '}';
     }
 
-//    /**
-//     * add learner studying at this course
-//     * @param learner
-//     */
-//    public void addLearner(Learner learner) {
-//        learners.add(learner);
-//    }
 
     /**
      * sort course by code
@@ -127,6 +120,11 @@ public class Course implements Comparable<Course>, Serializable {
         return this.code.compareTo(o.code);
     }
 
+    /**
+     * count number of pass learner in this course
+     * @param learners the list all learners
+     * @return the number of pass leaner
+     */
     public int countNumOfLearnersPassInCourse(LearnerTree learners) {
         int count = 0;
         Iterator<Learner> it = learners.iterator();
@@ -148,9 +146,9 @@ public class Course implements Comparable<Course>, Serializable {
     public int countLearnersInCourse(LearnerTree learners) {
         Iterator<Learner> it = learners.iterator();
         int count = 0;
-        while (it.hasNext()) {
-            Learner l = it.next();
-            if(l.getCourseCode().equalsIgnoreCase(this.code)) count++;
+        while(it.hasNext()) {
+            Learner learner = it.next();
+            if(learner.getCourseCode().equalsIgnoreCase(this.code)) count++;
         }
         return count;
     }
