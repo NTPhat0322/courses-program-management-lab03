@@ -1,10 +1,15 @@
 package data;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Iterator;
 import java.util.TreeSet;
 
-public class Course implements Comparable<Course>{
+public class Course implements Comparable<Course>, Serializable {
 
+    @Serial
+    private static final long serialVersionUID = 1L;
     private String code;
     private String name;
     private String type;
@@ -120,5 +125,33 @@ public class Course implements Comparable<Course>{
     @Override
     public int compareTo(Course o) {
         return this.code.compareTo(o.code);
+    }
+
+    public int countNumOfLearnersPassInCourse(LearnerTree learners) {
+        int count = 0;
+        Iterator<Learner> it = learners.iterator();
+        while (it.hasNext()) {
+            Learner learner = it.next();
+            if(learner.getCourseCode().equalsIgnoreCase(this.code) && learner.checkPass()) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+
+    /**
+     * count how many leaner is learning at course
+     * @param learners is the list of learners
+     * @return number of learner
+     */
+    public int countLearnersInCourse(LearnerTree learners) {
+        Iterator<Learner> it = learners.iterator();
+        int count = 0;
+        while (it.hasNext()) {
+            Learner l = it.next();
+            if(l.getCourseCode().equalsIgnoreCase(this.code)) count++;
+        }
+        return count;
     }
 }

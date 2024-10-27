@@ -8,6 +8,20 @@ import java.util.TreeSet;
 public class Inputer {
     private static Scanner sc = new Scanner(System.in);
 
+    public static double inputADouble(String inputMsg, double lowerBound) {
+        double rs = 0;
+        boolean loop;
+        do{
+            loop = false;
+            rs = inputADouble(inputMsg);
+            if(rs < lowerBound){
+                System.out.println("Your input is lower than " + lowerBound);
+                loop = true;
+            }
+        }while(loop);
+        return rs;
+    }
+
     /**
      * check whether your input is a double or not
      * @param inputMsg is the message will be printed to user

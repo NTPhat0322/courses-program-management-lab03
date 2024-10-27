@@ -18,8 +18,8 @@ public class TopicTree extends TreeSet<Topic> {
         int choice = Inputer.inputAnIntegerInRange("Are you sure to delete (0-no/1-yes)", -1, 2);
         if(choice == 1) {
             this.remove(t);
+            System.out.println("delete successfully");
         }
-        System.out.println("delete successfully");
     }
 
     /**

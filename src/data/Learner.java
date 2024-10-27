@@ -1,5 +1,8 @@
 package data;
 
+import util.FileName;
+
+import java.time.LocalDate;
 import java.util.Date;
 
 public class Learner implements Comparable<Learner>{
@@ -7,11 +10,11 @@ public class Learner implements Comparable<Learner>{
 
     private String code;
     private String name;
-    private Date birthDay;
-    private int score;
-    private int courseCode;
+    private LocalDate birthDay;
+    private double score;
+    private String courseCode;
 
-    public Learner(String code, String name, Date birthDay, int score, int courseCode) {
+    public Learner(String code, String name, LocalDate birthDay, double score, String courseCode) {
         this.code = code;
         this.name = name;
         this.birthDay = birthDay;
@@ -35,27 +38,27 @@ public class Learner implements Comparable<Learner>{
         this.name = name;
     }
 
-    public Date getBirthDay() {
+    public LocalDate getBirthDay() {
         return birthDay;
     }
 
-    public void setBirthDay(Date birthDay) {
+    public void setBirthDay(LocalDate birthDay) {
         this.birthDay = birthDay;
     }
 
-    public int getScore() {
+    public double getScore() {
         return score;
     }
 
-    public void setScore(int score) {
+    public void setScore(double score) {
         this.score = score;
     }
 
-    public int getCourseCode() {
+    public String getCourseCode() {
         return courseCode;
     }
 
-    public void setCourseCode(int courseCode) {
+    public void setCourseCode(String courseCode) {
         this.courseCode = courseCode;
     }
 
@@ -68,6 +71,13 @@ public class Learner implements Comparable<Learner>{
                 ", score=" + score +
                 ", courseCode=" + courseCode +
                 '}';
+    }
+
+    public boolean checkPass() {
+        if(this.getScore() >= FileName.SCORE_TO_PASS) {
+            return true;
+        }
+        return false;
     }
 
     /**
